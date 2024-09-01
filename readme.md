@@ -5,13 +5,13 @@ El objetivo de este ejercicio es crear una aplicación Node.js con Express que r
 
 # Pasos a Seguir:
 - Paso 1: Inicializar el Proyecto
-Inicia con npm install para instalar las dependencias (express, cheerio, axios).
+Inicia con npm install para instalar las dependencias (express, cheerio, axios). LISTO
 
-- Paso 2: Crear un Archivo `index.js`
+- Paso 2: Crear un Archivo `index.js` LISTO
 Crea un archivo llamado index.js en el directorio del proyecto.
 Aquí estará todo el código de tu proyecto
 
-- Paso 3: Crear un servidor http
+- Paso 3: Crear un servidor http LISTO
 
 - Paso 4: Accederemos a la web de wikipedia (`https://es.wikipedia.org/wiki/Categor%C3%ADa:M%C3%BAsicos_de_rap`), en esa web encontraremos enlaces a los que tendremos que acceder y recorrer esas página y recoger los siguinetes datos:
   - El título (h1)
