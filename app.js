@@ -5,10 +5,40 @@ const axios = require('axios')
 const app = express()
 const PORT = 3000
 const URL = 'https://es.wikipedia.org/wiki/Categor%C3%ADa:M%C3%BAsicos_de_rap'
-const urlAnchorBase = 'https://es.wikipedia.org/wiki/'
+const urlAnchorBase = 'https://es.wikipedia.org/'
 
 const singers = []
 const objectSorted = {}
+
+const createTemplate = (char) =>{
+    let splitChar = char.split('[]').join('')
+    
+    
+    let div = []
+   
+    let num = 0
+    for (const [key,values] of Object.entries(objectSorted)) {
+        
+        let splitChar = key.split('[').join('').split(']').join('')[0]
+        
+        
+        
+        
+        values.forEach(value => {
+            
+            
+            if(char.toLowerCase()[0] === splitChar.toLowerCase()){
+                
+                div.push(` <li><a href=${urlAnchorBase+value.url}>${value.name}</a></li> `)
+            }
+        })
+           
+    }
+    
+    
+    return div
+}
+
 app.get('/',(req,res)=>{
    
     axios.get(URL).then(response => {
@@ -22,7 +52,8 @@ app.get('/',(req,res)=>{
             const anchors = $('#mw-pages a').each((i,element) => {
                 const anchor = $(element).attr('href')
                 const anchorName = $(element).attr('title')
-                console.log(anchor,anchorName);
+                
+                
                 const singer = {
                     firstLetter : anchorName[0],
                     name : anchorName,
@@ -30,18 +61,24 @@ app.get('/',(req,res)=>{
                 }
                 singers.push(singer)
             })
+            
+            
             const characters = [h3.slice(0,3),...h3.slice(3)]
             
             
             singers.forEach(sing => {
-                if (Number(sing.firstLetter)) {
+               
+                if (!isNaN(Number(sing.firstLetter))) {
                 !objectSorted["[0-9]"] ? objectSorted["[0-9]"] = [sing]  : objectSorted["[0-9]"].push(sing)
                 }else{
                     !objectSorted[sing.firstLetter] ? objectSorted[sing.firstLetter] = [sing]  : objectSorted[sing.firstLetter].push(sing)
                 }
             })
 
-            console.log(objectSorted);
+            
+            
+            //console.log(objectSorted);
+            
             
             res.send(`
                 
@@ -61,8 +98,9 @@ app.get('/',(req,res)=>{
                             <br>
 
                             <div style=" display: flex; flex-direction: column; flex-wrap: wrap; height: 500px";>
+                               
                                 ${characters.map(char => {
-                                    return `<div style=width:50%><h3>${char}</h3></div>`
+                                    return `<div> <h3>${char}</h3>  <ul>${createTemplate(char)}</ul> </div>`
                                 }).join('')}
                             
                             </div>           
